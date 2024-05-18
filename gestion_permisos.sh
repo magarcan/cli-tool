@@ -36,28 +36,47 @@ mostrar_grupos() {
     cut -d: -f1 /etc/group
 }
 
+# Función para verificar permisos de grupo en una carpeta
+verificar_permisos_grupo() {
+    read -p "Introduce el nombre del grupo: " nombre_grupo
+    read -p "Introduce la ruta del directorio: " ruta_directorio
+
+    # Verificar que el directorio existe
+    if [ -d "$ruta_directorio" ]; then
+        # Mostrar información de propiedad y permisos
+        echo "Información de permisos para el directorio $ruta_directorio:"
+        ls -ld "$ruta_directorio"
+    else
+        echo "El directorio especificado no existe."
+    fi
+}
+
 # Función para gestionar grupos
 gestionar_grupos() {
-    echo "1) Crear grupo"
-    echo "2) Añadir usuario a grupo"
-    echo "3) Cambiar permisos de grupo en directorio"
-    echo "4) Mostrar Grupos"
-    echo "5) Volver"
+    echo "1) Mostrar Grupos"
+    echo "2) Crear grupo"
+    echo "3) Añadir usuario a grupo"
+    echo "4) Cambiar permisos de grupo en directorio"
+    echo "5) Verificar permisos de grupo en carpeta"
+    echo "6) Volver"
     read -p "Elige una opción: " opcion_grupo
 
     case $opcion_grupo in
         1)
+            mostrar_grupos
+            ;;
+        2)
             read -p "Introduce el nombre del grupo a crear: " nombre_grupo
             sudo groupadd $nombre_grupo
             echo "Grupo '$nombre_grupo' creado."
             ;;
-        2)
+        3)
             read -p "Introduce el nombre del usuario: " nombre_usuario
             read -p "Introduce el nombre del grupo: " nombre_grupo
             sudo usermod -a -G $nombre_grupo $nombre_usuario
             echo "Usuario '$nombre_usuario' añadido al grupo '$nombre_grupo'."
             ;;
-        3)
+        4)
             read -p "Introduce la ruta del directorio: " ruta_directorio
             read -p "Introduce el nombre del grupo: " nombre_grupo
             read -p "Introduce los permisos a asignar (ej: 770): " permisos_grupo
@@ -65,10 +84,10 @@ gestionar_grupos() {
             sudo chmod $permisos_grupo $ruta_directorio
             echo "Permisos '$permisos_grupo' asignados al grupo '$nombre_grupo' en el directorio '$ruta_directorio'."
             ;;
-        4)
-            mostrar_grupos
-            ;;
         5)
+            verificar_permisos_grupo
+            ;;
+        6)
             ;;
         *)
             echo "Opción inválida."
