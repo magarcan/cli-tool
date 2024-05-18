@@ -10,6 +10,8 @@ while true; do
     echo "4. Cambiar el grupo propietario de una carpeta"
     echo "5. Modificar permisos de una carpeta"
     echo "6. Salir"
+    echo "7. Ver usuarios de un grupo"
+    echo "8. Ver permisos de un grupo sobre una carpeta"
     read -p "Introduce tu opción: " opcion
 
     case $opcion in
@@ -48,6 +50,19 @@ while true; do
         6) 
             echo "Saliendo..."
             exit 0
+            ;;
+        7)
+            read -p "Nombre del grupo para ver sus usuarios: " grupo
+            echo "Usuarios del grupo '$grupo':"
+            grep $grupo /etc/group | cut -d: -f4
+            read -p "Presiona cualquier tecla para continuar..." readEnterKey
+            ;;
+        8)
+            read -p "Ruta de la carpeta para verificar: " carpeta
+            read -p "Nombre del grupo para verificar permisos: " grupo
+            echo "Permisos para el grupo '$grupo' en la carpeta '$carpeta':"
+            ls -ld $carpeta | awk '{print $1 " " $4}'
+            read -p "Presiona cualquier tecla para continuar..." readEnterKey
             ;;
         *)
             echo "Opción no válida."
