@@ -10,7 +10,7 @@ while true; do
     echo "4. Añadir usuario a un grupo"
     echo "5. Cambiar el grupo propietario de una carpeta"
     echo "6. Ver permisos de un grupo sobre una carpeta"
-    echo "7. Modificar permisos de una carpeta"
+    echo "7. Modificar permisos de una carpeta para un grupo"
     echo "8. Salir"
     read -p "Introduce tu opción: " opcion
 
@@ -51,13 +51,18 @@ while true; do
             read -p "Nombre del grupo para verificar permisos: " grupo
             echo "Permisos para el grupo '$grupo' en la carpeta '$carpeta':"
             ls -ld $carpeta | awk '{print $1 " " $4}'
+            echo "Formato de permisos: [tipo][usuario][grupo][otros]"
+            echo "Ejemplo: drwxr-x--- (d: directorio, rwx: usuario, r-x: grupo, ---: otros)"
             read -p "Presiona cualquier tecla para continuar..." readEnterKey
             ;;
         7)
             read -p "Ruta de la carpeta: " carpeta
-            read -p "Permisos (ejemplo 755): " permisos
-            sudo chmod $permisos $carpeta
-            echo "Permisos de '$carpeta' cambiados a '$permisos'."
+            read -p "Nombre del grupo: " grupo
+            echo "Introduce los permisos para el grupo usando la notación 'g=permisos'."
+            echo "Ejemplo: g=rwx (lectura, escritura, ejecución)"
+            read -p "Permisos para el grupo: " permisos_grupo
+            sudo chmod g="$permisos_grupo" $carpeta
+            echo "Permisos para el grupo '$grupo' en la carpeta '$carpeta' modificados a '$permisos_grupo'."
             read -p "Presiona cualquier tecla para continuar..." readEnterKey
             ;;
         8) 
