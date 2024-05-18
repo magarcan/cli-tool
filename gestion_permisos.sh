@@ -49,15 +49,12 @@ while true; do
         6)
             read -p "Ruta de la carpeta para verificar: " carpeta
             read -p "Nombre del grupo para verificar permisos: " grupo
-            echo "Permisos para el grupo '$grupo' en la carpeta '$carpeta':"
-            permisos=$(ls -ld $carpeta | awk '{print $1}')
-            echo "Permisos actuales: $permisos"
-            echo "Explicación:"
-            echo "    - Primer carácter: indica el tipo ('d' para directorio, '-' para archivo)"
-            echo "    - Siguientes tres caracteres: permisos del propietario ('r' leer, 'w' escribir, 'x' ejecutar)"
-            echo "    - Siguientes tres caracteres: permisos del grupo"
-            echo "    - Últimos tres caracteres: permisos para otros"
-            echo "Ejemplo de permisos: 'drwxr-x---' significa que el propietario tiene todos los permisos, el grupo puede leer y ejecutar, y otros no tienen permisos."
+            permisos=$(ls -ld $carpeta)
+            echo "Detalles de permisos para '$carpeta':"
+            echo "Tipo: ${permisos:0:1} (d: directorio, -: archivo)"
+            echo "Permisos de propietario: ${permisos:1:3}"
+            echo "Permisos de grupo: ${permisos:4:3}"
+            echo "Permisos de otros: ${permisos:7:3}"
             read -p "Presiona cualquier tecla para continuar..." readEnterKey
             ;;
         7)
