@@ -50,16 +50,23 @@ while true; do
             read -p "Ruta de la carpeta para verificar: " carpeta
             read -p "Nombre del grupo para verificar permisos: " grupo
             echo "Permisos para el grupo '$grupo' en la carpeta '$carpeta':"
-            ls -ld $carpeta | awk '{print $1 " " $4}'
-            echo "Formato de permisos: [tipo][usuario][grupo][otros]"
-            echo "Ejemplo: drwxr-x--- (d: directorio, rwx: usuario, r-x: grupo, ---: otros)"
+            permisos=$(ls -ld $carpeta | awk '{print $1}')
+            echo "Permisos actuales: $permisos"
+            echo "Explicación:"
+            echo "    - Primer carácter: indica el tipo ('d' para directorio, '-' para archivo)"
+            echo "    - Siguientes tres caracteres: permisos del propietario ('r' leer, 'w' escribir, 'x' ejecutar)"
+            echo "    - Siguientes tres caracteres: permisos del grupo"
+            echo "    - Últimos tres caracteres: permisos para otros"
+            echo "Ejemplo de permisos: 'drwxr-x---' significa que el propietario tiene todos los permisos, el grupo puede leer y ejecutar, y otros no tienen permisos."
             read -p "Presiona cualquier tecla para continuar..." readEnterKey
             ;;
         7)
             read -p "Ruta de la carpeta: " carpeta
             read -p "Nombre del grupo: " grupo
-            echo "Introduce los permisos para el grupo usando la notación 'g=permisos'."
-            echo "Ejemplo: g=rwx (lectura, escritura, ejecución)"
+            echo "Introduce los permisos para el grupo usando la notación 'g=permisos'. Ejemplos:"
+            echo "    g=rwx - Grupo puede leer, escribir y ejecutar"
+            echo "    g=r-- - Grupo solo puede leer"
+            echo "    g=--- - Grupo no tiene permisos"
             read -p "Permisos para el grupo: " permisos_grupo
             sudo chmod g="$permisos_grupo" $carpeta
             echo "Permisos para el grupo '$grupo' en la carpeta '$carpeta' modificados a '$permisos_grupo'."
