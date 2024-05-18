@@ -41,7 +41,8 @@ gestionar_grupos() {
     echo "1) Crear grupo"
     echo "2) Añadir usuario a grupo"
     echo "3) Cambiar permisos de grupo en directorio"
-    echo "4) Volver"
+    echo "4) Mostrar Grupos"
+    echo "5) Volver"
     read -p "Elige una opción: " opcion_grupo
 
     case $opcion_grupo in
@@ -65,6 +66,9 @@ gestionar_grupos() {
             echo "Permisos '$permisos_grupo' asignados al grupo '$nombre_grupo' en el directorio '$ruta_directorio'."
             ;;
         4)
+            mostrar_grupos
+            ;;
+        5)
             ;;
         *)
             echo "Opción inválida."
@@ -74,7 +78,7 @@ gestionar_grupos() {
 
 # Menú principal
 PS3='Selecciona una opción: '
-opciones=("Mostrar Usuarios" "Mostrar Directorios" "Asignar Permisos" "Gestionar Grupos" "Mostrar Grupos" "Salir")
+opciones=("Mostrar Usuarios" "Mostrar Directorios" "Asignar Permisos" "Gestionar Grupos" "Salir")
 select opt in "${opciones[@]}"
 do
     case $opt in
@@ -89,9 +93,6 @@ do
             ;;
         "Gestionar Grupos")
             gestionar_grupos
-            ;;
-        "Mostrar Grupos")
-            mostrar_grupos
             ;;
         "Salir")
             break
