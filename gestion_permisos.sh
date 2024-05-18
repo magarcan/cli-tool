@@ -30,6 +30,12 @@ asignar_permisos() {
     fi
 }
 
+# Función para mostrar grupos
+mostrar_grupos() {
+    echo "Grupos disponibles:"
+    cut -d: -f1 /etc/group
+}
+
 # Función para gestionar grupos
 gestionar_grupos() {
     echo "1) Crear grupo"
@@ -68,7 +74,7 @@ gestionar_grupos() {
 
 # Menú principal
 PS3='Selecciona una opción: '
-opciones=("Mostrar Usuarios" "Mostrar Directorios" "Asignar Permisos" "Gestionar Grupos" "Salir")
+opciones=("Mostrar Usuarios" "Mostrar Directorios" "Asignar Permisos" "Gestionar Grupos" "Mostrar Grupos" "Salir")
 select opt in "${opciones[@]}"
 do
     case $opt in
@@ -83,6 +89,9 @@ do
             ;;
         "Gestionar Grupos")
             gestionar_grupos
+            ;;
+        "Mostrar Grupos")
+            mostrar_grupos
             ;;
         "Salir")
             break
